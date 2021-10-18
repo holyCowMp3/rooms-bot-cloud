@@ -1,33 +1,33 @@
 version: "3"
 
 services:
-  keycloak:
-    image: kitbut/keycloak
-    restart: always
-    ports:
-      - "8484:8080"
-    depends_on:
-      - postgres
-    environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
-      DB_DATABASE: keycloak_db
-      DB_USER: ${POSTGRES_USER:-postgres}
-      DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin_password
-      PROXY_ADDRESS_FORWARDING: "true"
-
-  postgres:
-    container_name: postgres
-    image: kitbut/postgresql
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      POSTGRES_DB: keycloak_db
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
+#  keycloak:
+#    image: kitbut/keycloak
+#    restart: always
+#    ports:
+#      - "8484:8080"
+#    depends_on:
+#      - postgres
+#    environment:
+#      DB_VENDOR: POSTGRES
+#      DB_ADDR: postgres
+#      DB_DATABASE: keycloak_db
+#      DB_USER: ${POSTGRES_USER:-postgres}
+#      DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+#      KEYCLOAK_USER: admin
+#      KEYCLOAK_PASSWORD: admin_password
+#      PROXY_ADDRESS_FORWARDING: "true"
+#
+#  postgres:
+#    container_name: postgres
+#    image: kitbut/postgresql
+#    environment:
+#      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+#      POSTGRES_DB: keycloak_db
+#    ports:
+#      - "5432:5432"
+#    restart: unless-stopped
 
   api-database:
     image: kitbut/mongodb-rooms
@@ -38,7 +38,7 @@ services:
 
   rooms-bot-api:
     depends_on:
-      - keycloak
+#      - keycloak
       - api-database
     build:
       dockerfile: Dockerfile
@@ -46,10 +46,10 @@ services:
     restart: always
     ports:
       - "8080:8080"
-    environment:
-      APP_HOST: "application:8080"
-      KC_AUTH_HOST: "localhost:8484"
-      KC_AUTH_PROXY_HOST: "keycloak:8080"
+#    environment:
+#      APP_HOST: "application:8080"
+#      KC_AUTH_HOST: "localhost:8484"
+#      KC_AUTH_PROXY_HOST: "keycloak:8080"
 
   rooms-eureka-server:
     container_name: discovery-service
