@@ -1,12 +1,12 @@
 package com.example.keycloack.models;
 
-import com.example.keycloack.models.Apartments.Apartments;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 @Document(collection = "Users")
@@ -17,6 +17,8 @@ public class User {
 
     @Id
     private String id;
+
+    private Date creationDate = new Date();
 
     private String type;
 
@@ -30,7 +32,7 @@ public class User {
     private String role;
     private String typeSubscription;
 
-    private List<Apartments> savedApartments;
+    private List<Long> savedApartments;
 
     private boolean isConfirmed;
     private boolean isLocked;

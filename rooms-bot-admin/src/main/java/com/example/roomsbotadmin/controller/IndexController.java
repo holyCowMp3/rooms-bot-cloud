@@ -18,9 +18,10 @@ public class IndexController {
 
     @GetMapping(value = "/")
     public String getIndex(Model model) {
-        System.out.println(getBaseUrl());
-        String r = restTemplate.getForObject(getBaseUrl() + "/api/apartments/get", String.class);
-        model.addAttribute("str", r);
+
+//        System.out.println(getBaseUrl());
+//        String r = restTemplate.getForObject(getBaseUrl() + "/api/apartments/get", String.class);
+//        model.addAttribute("str", r);
         return "index";
     }
 
