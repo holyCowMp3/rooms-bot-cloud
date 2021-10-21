@@ -3,6 +3,7 @@ package com.example.keycloack.controllers;
 import com.example.keycloack.models.Apartments.Apartments;
 import com.example.keycloack.services.ApartmentsService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.*;
 @RequestMapping("/api/apartments")
 @AllArgsConstructor
 @CrossOrigin
+@Slf4j
 public class ApartmentsController {
 
     private final ApartmentsService apartmentsService;
@@ -35,52 +37,57 @@ public class ApartmentsController {
         Random random = new Random();
         List<Apartments> apartmentsList = new ArrayList<>();
 
-        if (priceMin == 0 && priceMax == 0 && rooms.length == 0 && subLocationName.length == 0 && metro.length == 0) {
-            apartmentsList = apartmentsService.findByTwoParams(type, city);
-            return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
+        try {
+            if (priceMin == 0 && priceMax == 0 && rooms.length == 0 && subLocationName.length == 0 && metro.length == 0) {
+                apartmentsList = apartmentsService.findByTwoParams(type, city);
+                return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
 
-        } else if (priceMin != 0 && priceMax != 0 && rooms.length == 0 && subLocationName.length == 0 && metro.length == 0) {
-            apartmentsList = apartmentsService.findByThreeParams(type, city, priceMin, priceMax);
-            return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
+            } else if (priceMin != 0 && priceMax != 0 && rooms.length == 0 && subLocationName.length == 0 && metro.length == 0) {
+                apartmentsList = apartmentsService.findByThreeParams(type, city, priceMin, priceMax);
+                return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
 
-        } else if (priceMin != 0 && priceMax != 0 && rooms.length != 0 && subLocationName.length == 0 && metro.length == 0) {
+            } else if (priceMin != 0 && priceMax != 0 && rooms.length != 0 && subLocationName.length == 0 && metro.length == 0) {
 
-            for (int room : rooms) {
-                apartmentsList.addAll(apartmentsService.findByFourParams(type, city, priceMin, priceMax, room));
-            }
-
-            return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
-
-        } else if (priceMin != 0 && priceMax != 0 && rooms.length != 0 && subLocationName.length != 0 && metro.length == 0) {
-            for (int room : rooms) {
-                for (String region : subLocationName) {
-                    apartmentsList.addAll(apartmentsService.findByParamsSubLocationName(type, city, priceMin, priceMax, room, region));
+                for (int room : rooms) {
+                    apartmentsList.addAll(apartmentsService.findByFourParams(type, city, priceMin, priceMax, room));
                 }
-            }
 
-            return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
-        } else if (priceMin != 0 && priceMax != 0 && rooms.length != 0 && subLocationName.length == 0) {
-            for (int room : rooms) {
-                for (String metroName : metro) {
-                    apartmentsList.addAll(apartmentsService.findByParamsMetro(type, city, priceMin, priceMax, room, metroName));
-                }
-            }
+                return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
 
-            return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
-        } else if (priceMin != 0 && priceMax != 0 && rooms.length != 0) {
-
-            for (String region : subLocationName) {
-                for (String metroName : metro) {
-                    for (int room : rooms) {
-                        apartmentsList.addAll(apartmentsService.findBySixParams(type, city, priceMin, priceMax, room, region, metroName));
+            } else if (priceMin != 0 && priceMax != 0 && rooms.length != 0 && subLocationName.length != 0 && metro.length == 0) {
+                for (int room : rooms) {
+                    for (String region : subLocationName) {
+                        apartmentsList.addAll(apartmentsService.findByParamsSubLocationName(type, city, priceMin, priceMax, room, region));
                     }
                 }
-            }
 
-            return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
+                return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
+            } else if (priceMin != 0 && priceMax != 0 && rooms.length != 0 && subLocationName.length == 0) {
+                for (int room : rooms) {
+                    for (String metroName : metro) {
+                        apartmentsList.addAll(apartmentsService.findByParamsMetro(type, city, priceMin, priceMax, room, metroName));
+                    }
+                }
 
-        } else
-            return new ResponseEntity<>(new Apartments(), HttpStatus.BAD_REQUEST);
+                return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
+            } else if (priceMin != 0 && priceMax != 0 && rooms.length != 0) {
+
+                for (String region : subLocationName) {
+                    for (String metroName : metro) {
+                        for (int room : rooms) {
+                            apartmentsList.addAll(apartmentsService.findBySixParams(type, city, priceMin, priceMax, room, region, metroName));
+                        }
+                    }
+                }
+
+                return ResponseEntity.ok(apartmentsList.get(random.nextInt(apartmentsList.size())));
+
+            } else
+                return new ResponseEntity<>(new Apartments(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            log.error("Apartments in database not found");
+            return new ResponseEntity<>(new Apartments(), HttpStatus.NOT_FOUND);
+        }
 
     }
 

@@ -46,19 +46,33 @@ public class UserService {
     public void todayCompilation() {
         List<User> users = repository.findAll();
         List<Apartments> apartments = new ArrayList<>();
-        
+
 
         for (User user : users) {
 
-            if (user.getRooms() == null || user.getPriceMin() == 0 || user.getPriceMax() == 0 ||
-                    user.getRegion() == null || user.getMetroNames() == null)
+            if (user.getPriceMin() == 0 || user.getPriceMax() == 0)
                 continue;
 
-            for (int room : user.getRooms())
-                for (String region : user.getRegion())
-                    for (String metro : user.getMetroNames())
-                        apartments.addAll(apartmentsService.findBySixParams(user.getType(), user.getCity(),
-                                user.getPriceMin(), user.getPriceMax(), room, region, metro));
+
+            if (user.getRooms() == null && user.getRegion() == null && user.getMetroNames() == null) {
+                apartments.addAll(apartmentsService.findByThreeParams(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax()));
+            } else if (user.getRooms() != null && user.getRegion() == null && user.getMetroNames() == null) {
+                for (int room : user.getRooms())
+                    apartments.addAll(apartmentsService.findByFourParams(user.getType(), user.getCity(), user.getPriceMin(),
+                            user.getPriceMax(), room));
+            } else if (user.getRooms() != null && user.getRegion() != null && user.getMetroNames() == null) {
+                for (int room : user.getRooms())
+                    for (String region : user.getRegion())
+                        apartments.addAll(apartmentsService.findByParamsSubLocationName(user.getType(), user.getCity(),
+                                user.getPriceMin(), user.getPriceMax(), room, region));
+            } else if (user.getRooms() != null && user.getRegion() != null && user.getMetroNames() != null) {
+                for (int room : user.getRooms())
+                    for (String region : user.getRegion())
+                        for (String metro : user.getMetroNames())
+                            apartments.addAll(apartmentsService.findBySixParams(user.getType(), user.getCity(),
+                                    user.getPriceMin(), user.getPriceMax(), room, region, metro));
+            }
+
 
             user.setTodayCompilation(apartments.stream().map(Apartments::getInternalId).collect(Collectors.toList()));
 
