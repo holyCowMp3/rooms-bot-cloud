@@ -64,6 +64,10 @@ public class UserService {
                     for (String region: user.getRegion())
                         for (String metro: user.getMetroNames())
                             apartments.addAll(apartmentsService.findBySixParams(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax(), room, region, metro));
+            } else if (user.getPriceMin() != 0 && user.getPriceMax() != 0 && user.getRooms() == null && user.getRegion() != null && user.getMetroNames() != null) {
+                for (String region: user.getRegion())
+                    for (String metro: user.getMetroNames())
+                        apartments.addAll(apartmentsService.findByNotRooms(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax(), region, metro));
             }
 
             user.setTodayCompilation(apartments.stream().map(Apartments::getInternalId).collect(Collectors.toList()));

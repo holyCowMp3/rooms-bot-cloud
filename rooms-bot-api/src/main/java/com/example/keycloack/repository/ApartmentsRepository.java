@@ -32,4 +32,8 @@ public interface ApartmentsRepository extends MongoRepository<Apartments, String
     List<Apartments> findByParamsSubLocationName(String type, String city, int priceMin, int priceMax, int rooms, String subLocationName);
 
 
+    @Query("{'type': ?0, 'location.locationName': ?1, 'price.value': {$gte: ?2, $lte: ?3}, " +
+            "'location.subLocationName': ?4, 'location.metro.name': ?5}")
+    List<Apartments> findByNotRooms(String type, String city, int priceMin, int priceMax, String subLocationName, String metro);
+
 }

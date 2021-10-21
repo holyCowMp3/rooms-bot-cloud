@@ -54,6 +54,10 @@ public class ApartmentsService {
         return repository.findByParamsSubLocationName(type, city, priceMin, priceMax, rooms, subLocationName);
     }
 
+    public List<Apartments> findByNotRooms(String type, String city, int priceMin, int priceMax, String subLocationName, String metro) {
+        return repository.findByNotRooms(type, city, priceMin, priceMax, subLocationName, metro);
+    }
+
     public Apartments findByInternalId(Long id) {
         return repository.findByInternalId(id);
     }
