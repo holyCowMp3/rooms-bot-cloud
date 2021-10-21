@@ -41,8 +41,6 @@ public class UserService {
         return repository.findByIdTelegram(id);
     }
 
-
-    @Async
     public void todayCompilation() {
         List<User> users = repository.findAll();
         List<Apartments> apartments = new ArrayList<>();

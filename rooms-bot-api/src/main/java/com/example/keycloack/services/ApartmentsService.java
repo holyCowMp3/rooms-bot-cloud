@@ -22,7 +22,6 @@ public class ApartmentsService {
         return repository.findAll();
     }
 
-    @Async
     public void delete(Apartments apartments) {
         repository.delete(apartments);
     }

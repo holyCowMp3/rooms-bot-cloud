@@ -47,7 +47,6 @@ public class AutoUpdateApartmentsManager {
 
 
     @Scheduled(fixedDelay = 86400000, initialDelay = 4000)
-    @Async
     public void deleteOldApartments() {
         List<Apartments> apartmentsList = apartmentsService.findAll();
 
@@ -68,7 +67,6 @@ public class AutoUpdateApartmentsManager {
         userService.todayCompilation();
     }
 
-    @Async
     protected void urlParser(String urlString) {
         try {
 
