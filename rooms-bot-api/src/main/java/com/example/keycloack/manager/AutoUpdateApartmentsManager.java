@@ -225,7 +225,6 @@ public class AutoUpdateApartmentsManager {
                         }
                         SalesAgent salesAgent = new SalesAgent(phone);
                         apartments.setSalesAgent(salesAgent);
-                        apartments.setIsFree(false);
 
                         try {
                             var savedApartments = apartmentsService.findByInternalId(internalId);

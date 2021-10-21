@@ -49,5 +49,4 @@ public class Apartments {
 
     private List<String> images;
 
-    private Boolean isFree;
 }
