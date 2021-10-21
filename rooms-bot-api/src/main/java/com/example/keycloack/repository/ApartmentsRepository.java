@@ -36,4 +36,8 @@ public interface ApartmentsRepository extends MongoRepository<Apartments, String
             "'location.subLocationName': ?4, 'location.metro.name': ?5}")
     List<Apartments> findByNotRooms(String type, String city, int priceMin, int priceMax, String subLocationName, String metro);
 
+    @Query("{'type': ?0, 'location.locationName': ?1, 'price.value': {$gte: ?2, $lte: ?3}, " +
+            "'location.subLocationName': ?4}")
+    List<Apartments> findByNotRoomsAndMetro(String type, String city, int priceMin, int priceMax, String subLocationName);
+
 }
