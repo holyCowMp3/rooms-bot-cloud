@@ -57,6 +57,6 @@ public class User {
     private String lastViewed;
 
 
-    private String supportReceiverTelegramId;
+    private int userStatus;
 
 }
