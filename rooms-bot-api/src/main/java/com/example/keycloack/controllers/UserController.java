@@ -80,7 +80,7 @@ public class UserController {
         userFromDb.setDaysOfSubscription(user.getDaysOfSubscription());
         userFromDb.setRent(user.isRent());
         userFromDb.setRooms(user.getRooms());
-        userFromDb.setSupportReceiverTelegramId(user.getSupportReceiverTelegramId());
+        userFromDb.setUserStatus(user.getUserStatus());
         userFromDb.setPriceMin(user.getPriceMin());
         userFromDb.setPriceMax(user.getPriceMax());
         userFromDb.setCity(user.getCity());
