@@ -2,12 +2,14 @@ package com.example.keycloack.manager;
 
 import com.example.keycloack.models.Apartments.Apartments;
 import com.example.keycloack.models.Apartments.pojos.*;
+import com.example.keycloack.models.User;
 import com.example.keycloack.services.ApartmentsService;
 import com.example.keycloack.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -61,9 +63,27 @@ public class AutoUpdateApartmentsManager {
 
     }
 
+
     @Scheduled(fixedDelay = 86400000, initialDelay = 7000)
     public void todayCompilation() {
         userService.todayCompilation();
+    }
+
+    @Scheduled(cron = "0 0 0 * * *", zone = "GMT+3")
+    public void updateDaysOfSubscription() {
+        List<User> allUsers = userService.findAll();
+
+        for (User user : allUsers) {
+
+            if (user.getDaysOfSubscription() == 0)
+                continue;
+
+            if (user.getDaysOfSubscription() > 0) {
+                user.setDaysOfSubscription(user.getDaysOfSubscription() - 1);
+            }
+
+            userService.save(user);
+        }
     }
 
     protected void urlParser(String urlString) {

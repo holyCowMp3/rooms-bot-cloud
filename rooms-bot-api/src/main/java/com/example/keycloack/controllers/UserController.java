@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/user")
@@ -35,6 +37,19 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/subscriptionLessTwoDays")
+    @ResponseBody
+    public ResponseEntity<List<String>> updateDaysOfSubscription() {
+        List<User> allUsers = userService.findAll();
+
+        List<String> idUsers = allUsers.stream()
+                .filter(x -> x.getDaysOfSubscription() <= 2 && x.getDaysOfSubscription() > 0)
+                .map(User::getIdTelegram)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(idUsers);
+    }
+
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
@@ -44,18 +59,6 @@ public class UserController {
         return new ResponseEntity<>(userSave, HttpStatus.CREATED);
     }
 
-
-    @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody User user) {
-
-        if (user.getId() == null) {
-            return new ResponseEntity<>("missed param: id", HttpStatus.NOT_FOUND);
-        }
-
-        userService.save(user);
-        userService.todayCompilation();
-        return new ResponseEntity<>("User updated", HttpStatus.OK);
-    }
 
     @PutMapping("/updateById/{id}")
     public ResponseEntity<User> updateById(@PathVariable String id, @RequestBody User user) {
@@ -68,8 +71,6 @@ public class UserController {
         userFromDb.setName(user.getName());
         userFromDb.setLastName(user.getLastName());
         userFromDb.setNickname(user.getNickname());
-        userFromDb.setPassword(user.getPassword());
-        userFromDb.setEmail(user.getEmail());
         userFromDb.setRole(user.getRole());
         userFromDb.setTypeSubscription(user.getTypeSubscription());
         userFromDb.setSavedApartments(user.getSavedApartments());
