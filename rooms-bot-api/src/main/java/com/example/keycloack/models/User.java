@@ -54,7 +54,8 @@ public class User {
 
     private List<Long> todayCompilation;
     private List<String> viewed;
-    private String lastViewed;
+    private String language;
+    private int freeCounterSearch;
 
 
     private int userStatus;
