@@ -87,9 +87,10 @@ public class UserController {
         userFromDb.setRegion(user.getRegion());
         userFromDb.setMetroNames(user.getMetroNames());
         userFromDb.setTodayCompilation(user.getTodayCompilation());
-        userFromDb.setLastViewed(user.getLastViewed());
+        userFromDb.setFreeCounterSearch(user.getFreeCounterSearch());
         userFromDb.setViewed(user.getViewed());
         userFromDb.setType(user.getType());
+        userFromDb.setLanguage(user.getLanguage());
 
         userService.save(userFromDb);
         userService.todayCompilation();
