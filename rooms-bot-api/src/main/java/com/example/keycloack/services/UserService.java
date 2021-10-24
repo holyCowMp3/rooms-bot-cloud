@@ -47,7 +47,6 @@ public class UserService {
         List<User> users = repository.findAll();
         Set<Apartments> apartments = new HashSet<>();
 
-
         for (User user : users) {
 
             if (user.getPriceMin() != 0 && user.getPriceMax() != 0 && user.getRooms() == null && user.getRegion() == null && user.getMetroNames() == null) {
@@ -76,9 +75,9 @@ public class UserService {
 
             user.setTodayCompilation(apartments.stream().map(Apartments::getInternalId).collect(Collectors.toList()));
 
-            log.info("----------------------------------------------------------------------------------------");
-            log.info("saved: " + user);
-            log.info("----------------------------------------------------------------------------------------");
+            System.out.println("----------------------------------------------------------------------------------------");
+            System.out.println("saved: " + user);
+            System.out.println("----------------------------------------------------------------------------------------");
 
             repository.save(user);
         }
