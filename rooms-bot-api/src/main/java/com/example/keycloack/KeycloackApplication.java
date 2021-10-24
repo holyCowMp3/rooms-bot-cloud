@@ -11,7 +11,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableDiscoveryClient
 public class KeycloackApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(KeycloackApplication.class, args);
     }
+
+
+//    @Override
+//    public void run(String... args) throws Exception {
+//        repository.deleteAll();
+//        repository.save(new UserJwt("api", new BCryptPasswordEncoder().encode("zsxadc1234")));
+//    }
 }
