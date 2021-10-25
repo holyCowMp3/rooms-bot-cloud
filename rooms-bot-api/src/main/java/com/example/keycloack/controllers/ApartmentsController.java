@@ -1,6 +1,7 @@
 package com.example.keycloack.controllers;
 
 import com.example.keycloack.models.Apartments.Apartments;
+import com.example.keycloack.models.Messages;
 import com.example.keycloack.services.ApartmentsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +20,13 @@ public class ApartmentsController {
 
     private final ApartmentsService apartmentsService;
 
-    @GetMapping("/get")
-    public String get() {
-        return "HELLo";
+    @ResponseBody
+    @GetMapping("/json")
+    public ResponseEntity<Messages> json() {
+        Messages messages = new Messages(Arrays.asList("321312", "432432", "432432"), "HEllo BOys");
+        return ResponseEntity.ok(messages);
     }
+
 
     @ResponseBody
     @GetMapping("/randomByParams")
