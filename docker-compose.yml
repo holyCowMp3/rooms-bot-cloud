@@ -33,9 +33,9 @@ services:
     image: kitbut/mongodb-rooms
     container_name: "api-database"
     restart: always
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=zsxadc1234
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=root
+#      - MONGO_INITDB_ROOT_PASSWORD=zsxadc1234
     ports:
       - "27017:27017"
 
