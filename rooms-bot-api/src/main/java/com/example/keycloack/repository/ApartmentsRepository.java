@@ -50,4 +50,8 @@ public interface ApartmentsRepository extends MongoRepository<Apartments, String
     @Async
     CompletableFuture<List<Apartments>> findByNotRoomsAndMetro(String type, String city, int priceMin, int priceMax, String subLocationName);
 
+    @Query("{'type': ?0, 'location.locationName': ?1, 'price.value': {$gte: ?2, $lte: ?3}, 'location.metro.name': ?4}")
+    @Async
+    CompletableFuture<List<Apartments>> findByMetro(String type, String city, int priceMin, int priceMax, String metro);
+
 }

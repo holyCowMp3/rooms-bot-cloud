@@ -82,6 +82,11 @@ public class ApartmentsService {
       return   repository.findByNotRoomsAndMetro(type, city, priceMin, priceMax, subLocationName).get();
     }
 
+    @SneakyThrows
+    public List<Apartments> findByMetro(String type, String city, int priceMin, int priceMax, String metro) {
+        return repository.findByMetro(type, city, priceMin, priceMax, metro).get();
+    }
+
     public Apartments findByInternalId(Long id) {
         return repository.findByInternalId(id);
     }
