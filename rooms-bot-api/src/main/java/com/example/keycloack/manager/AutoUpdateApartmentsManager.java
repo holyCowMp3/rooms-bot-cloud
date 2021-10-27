@@ -5,6 +5,7 @@ import com.example.keycloack.models.Apartments.pojos.*;
 import com.example.keycloack.models.User;
 import com.example.keycloack.services.ApartmentsService;
 import com.example.keycloack.services.UserService;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -47,9 +48,10 @@ public class AutoUpdateApartmentsManager {
     }
 
 
+    @SneakyThrows
     @Scheduled(fixedDelay = 86400000, initialDelay = 4000)
     public void deleteOldApartments() {
-        List<Apartments> apartmentsList = apartmentsService.findAll();
+        List<Apartments> apartmentsList = apartmentsService.findAll().get();
 
         for (Apartments apartment : apartmentsList) {
             LocalDate localDateLastUpdate = LocalDate.parse(apartment.getLastUpdateDate());
