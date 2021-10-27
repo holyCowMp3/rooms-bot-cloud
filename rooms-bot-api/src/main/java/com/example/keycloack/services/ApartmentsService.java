@@ -30,6 +30,10 @@ public class ApartmentsService {
         repository.save(apartments);
     }
 
+    public Apartments findById(String id) {
+        return repository.findById(id).get();
+    }
+
     public List<Apartments> findByTwoParams(String type, String city) {
         return repository.findByTwoParams(type, city);
     }

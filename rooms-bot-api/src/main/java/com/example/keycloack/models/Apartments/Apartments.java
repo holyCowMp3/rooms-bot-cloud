@@ -49,4 +49,5 @@ public class Apartments {
 
     private List<String> images;
 
+    private String urlTelegraph;
 }
