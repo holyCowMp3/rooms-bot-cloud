@@ -54,29 +54,6 @@ public class UserService {
                     || user.getType().equals("") || user.getCity().equals(""))
                 continue;
 
-//            if (user.getPriceMin() != 0 && user.getPriceMax() != 0 && user.getRooms() == null && user.getRegion() == null && user.getMetroNames() == null) {
-//                apartments.addAll(apartmentsService.findByThreeParams(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax()));
-//            } else if (user.getPriceMin() != 0 && user.getPriceMax() != 0 && user.getRooms() != null && user.getRegion() == null && user.getMetroNames() == null) {
-//                for (int room : user.getRooms())
-//                    apartments.addAll(apartmentsService.findByFourParams(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax(), room));
-//            } else if (user.getPriceMin() != 0 && user.getPriceMax() != 0 && user.getRooms() != null && user.getRegion() != null && user.getMetroNames() == null) {
-//                for (int room : user.getRooms())
-//                    for (String region : user.getRegion())
-//                        apartments.addAll(apartmentsService.findByParamsSubLocationName(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax(), room, region));
-//            } else if (user.getPriceMin() != 0 && user.getPriceMax() != 0 && user.getRooms() != null && user.getRegion() != null && user.getMetroNames() != null) {
-//                for (int room : user.getRooms())
-//                    for (String region : user.getRegion())
-//                        for (String metro : user.getMetroNames())
-//                            apartments.addAll(apartmentsService.findBySixParams(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax(), room, region, metro));
-//            } else if (user.getPriceMin() != 0 && user.getPriceMax() != 0 && user.getRooms() == null && user.getRegion() != null && user.getMetroNames() != null) {
-//                for (String region : user.getRegion())
-//                    for (String metro : user.getMetroNames())
-//                        apartments.addAll(apartmentsService.findByNotRooms(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax(), region, metro));
-//            } else if (user.getPriceMin() != 0 && user.getPriceMax() != 0 && user.getRooms() == null && user.getRegion() != null && user.getMetroNames() == null) {
-//                for (String region : user.getRegion())
-//                    apartments.addAll(apartmentsService.findByNotRoomsAndMetro(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax(),
-//                            region));
-//            }
 
             if (user.getPriceMax() != 0 && user.getPriceMin() != 0 && user.getRooms().size() != 0 && user.getRegion().size() != 0 && user.getMetroNames().size() != 0) {
                 for (int room : user.getRooms())
@@ -99,10 +76,10 @@ public class UserService {
                 for (String region : user.getRegion())
                     for (String metro : user.getMetroNames())
                         apartments.addAll(apartmentsService.findByNotRooms(user.getCity(), user.getCity(), user.getPriceMin(), user.getPriceMax(), region, metro));
-            } else if (user.getPriceMin() != 0 && user.getPriceMax() !=0 && user.getRooms().size() == 0 && user.getRegion().size() == 0 && user.getMetroNames().size() != 0) {
+            } else if (user.getPriceMin() != 0 && user.getPriceMax() != 0 && user.getRooms().size() == 0 && user.getRegion().size() == 0 && user.getMetroNames().size() != 0) {
                 for (String metro : user.getMetroNames())
                     apartments.addAll(apartmentsService.findByMetro(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax(), metro));
-            } else if (user.getPriceMin() != 0 && user.getPriceMax() !=0 && user.getRooms().size() != 0 && user.getRegion().size() == 0 && user.getMetroNames().size() != 0) {
+            } else if (user.getPriceMin() != 0 && user.getPriceMax() != 0 && user.getRooms().size() != 0 && user.getRegion().size() == 0 && user.getMetroNames().size() != 0) {
                 for (int room : user.getRooms())
                     for (String metro : user.getMetroNames())
                         apartments.addAll(apartmentsService.findByParamsMetro(user.getType(), user.getCity(), user.getPriceMin(), user.getPriceMax(), room, metro));
