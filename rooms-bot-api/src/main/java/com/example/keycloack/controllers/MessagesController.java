@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "http://95.217.184.62:8181/")
 @RequestMapping("/api/message")
 public class MessagesController {
 
