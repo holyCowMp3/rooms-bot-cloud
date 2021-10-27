@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/message")
 public class MessagesController {
 
@@ -19,7 +18,7 @@ public class MessagesController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Messages> addMessage(@RequestBody Messages  messages) {
+    public ResponseEntity<Messages> addMessage(@RequestBody Messages messages) {
         return ResponseEntity.ok(messageService.save(messages));
     }
 
@@ -27,6 +26,11 @@ public class MessagesController {
     @ResponseBody
     public ResponseEntity<Messages> find() {
         List<Messages> messagesList = messageService.findAll();
+        System.out.println(messagesList);
+
+        if (messagesList.size() == 0)
+            return ResponseEntity.ok(new Messages());
+
         return ResponseEntity.ok(messagesList.get(messagesList.size() - 1));
     }
 }

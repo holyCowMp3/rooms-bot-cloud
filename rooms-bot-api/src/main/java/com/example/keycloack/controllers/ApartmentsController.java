@@ -1,9 +1,9 @@
 package com.example.keycloack.controllers;
 
 import com.example.keycloack.models.Apartments.Apartments;
-import com.example.keycloack.models.Messages;
 import com.example.keycloack.services.ApartmentsService;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,6 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/apartments")
 @AllArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 public class ApartmentsController {
 
@@ -160,22 +159,11 @@ public class ApartmentsController {
         return ResponseEntity.ok(apartments);
     }
 
+    @SneakyThrows
     @ResponseBody
     @GetMapping("/all")
     public ResponseEntity<List<Apartments>> all() {
-        return ResponseEntity.ok(apartmentsService.findAll());
+        return ResponseEntity.ok(apartmentsService.findAll().get());
     }
 
-    @PutMapping("/updateUrl/{id}")
-    public ResponseEntity<Apartments> updateUrl(@PathVariable String id, @RequestBody Apartments apartments) {
-        Apartments apartmentsFromDb = apartmentsService.findById(id);
-
-        if (apartmentsFromDb == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        apartmentsFromDb.setUrlTelegraph(apartments.getUrlTelegraph());
-        apartmentsService.save(apartmentsFromDb);
-
-        return ResponseEntity.ok(apartmentsFromDb);
-    }
 }
