@@ -20,13 +20,6 @@ public class ApartmentsController {
 
     private final ApartmentsService apartmentsService;
 
-    @ResponseBody
-    @GetMapping("/json")
-    public ResponseEntity<Messages> json() {
-        Messages messages = new Messages(Arrays.asList("321312", "432432", "432432"), "HEllo BOys");
-        return ResponseEntity.ok(messages);
-    }
-
 
     @ResponseBody
     @GetMapping("/randomByParams")
@@ -165,5 +158,24 @@ public class ApartmentsController {
         }
 
         return ResponseEntity.ok(apartments);
+    }
+
+    @ResponseBody
+    @GetMapping("/all")
+    public ResponseEntity<List<Apartments>> all() {
+        return ResponseEntity.ok(apartmentsService.findAll());
+    }
+
+    @PutMapping("/updateUrl/{id}")
+    public ResponseEntity<Apartments> updateUrl(@PathVariable String id, @RequestBody Apartments apartments) {
+        Apartments apartmentsFromDb = apartmentsService.findById(id);
+
+        if (apartmentsFromDb == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        apartmentsFromDb.setUrlTelegraph(apartments.getUrlTelegraph());
+        apartmentsService.save(apartmentsFromDb);
+
+        return ResponseEntity.ok(apartmentsFromDb);
     }
 }

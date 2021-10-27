@@ -27,6 +27,8 @@ public class UserService {
         this.apartmentsService = apartmentsService;
     }
 
+
+
     public List<User> findAll() {
         return repository.findAll();
     }
