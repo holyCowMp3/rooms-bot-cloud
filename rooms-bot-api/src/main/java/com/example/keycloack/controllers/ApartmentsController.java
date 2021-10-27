@@ -15,6 +15,7 @@ import java.util.*;
 @RequestMapping("/api/apartments")
 @AllArgsConstructor
 @Slf4j
+@CrossOrigin
 public class ApartmentsController {
 
     private final ApartmentsService apartmentsService;
