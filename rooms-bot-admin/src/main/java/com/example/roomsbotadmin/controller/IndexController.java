@@ -26,7 +26,7 @@ public class IndexController {
     }
 
     private String getBaseUrl() {
-        ServiceInstance instance = loadBalancerClient.choose("SPRING-SECURITY-KEYCLOAK");
+        ServiceInstance instance = loadBalancerClient.choose("rooms-api");
         return instance.getUri().toString();
     }
 
