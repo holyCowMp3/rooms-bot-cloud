@@ -14,7 +14,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/apartments")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://95.217.184.62:8181/")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 public class ApartmentsController {
 
