@@ -18,7 +18,6 @@ public class UserTableController {
 
     @GetMapping("/user-table")
     public String getUserTable(Model model) {
-        System.out.println(getBaseUrl());
         model.addAttribute("userTelegram", restTemplate.getForObject(getBaseUrl() + "/api/user", User[].class));
 
 
