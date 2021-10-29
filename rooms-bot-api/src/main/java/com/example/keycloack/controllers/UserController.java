@@ -92,6 +92,7 @@ public class UserController {
         userFromDb.setViewed(user.getViewed());
         userFromDb.setType(user.getType());
         userFromDb.setLanguage(user.getLanguage());
+        userFromDb.setCategory(user.getCategory());
 
         userService.save(userFromDb);
         userService.todayCompilation();
