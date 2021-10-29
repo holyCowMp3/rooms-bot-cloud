@@ -36,6 +36,7 @@ public class User {
     private boolean isLocked;
 
     private String city;
+    private String category;
     private List<String> region;
     private List<String> metroNames;
 
