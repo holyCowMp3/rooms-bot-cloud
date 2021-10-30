@@ -26,6 +26,7 @@ public class MessagesController {
     @GetMapping("/find")
     @ResponseBody
     public ResponseEntity<Messages> find() {
+        messageService.deleteAll();
         List<Messages> messagesList = messageService.findAll();
         System.out.println(messagesList);
 
