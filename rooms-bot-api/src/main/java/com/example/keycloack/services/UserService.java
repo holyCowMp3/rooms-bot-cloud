@@ -25,6 +25,9 @@ public class UserService {
         this.apartmentsService = apartmentsService;
     }
 
+    public void deleteById(String id) {
+        repository.deleteById(id);
+    }
 
     public List<User> findAll() {
         return repository.findAll();

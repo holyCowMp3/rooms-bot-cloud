@@ -45,7 +45,6 @@ public interface ApartmentsRepository extends MongoRepository<Apartments, String
     @Async
     CompletableFuture<List<Apartments>> findByTypeCityCategoryPriceRoomsRegion(String type, String city, String category, int priceMin, int priceMax, int rooms, String subLocationName);
 
-
     //7
     @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, " +
             "'location.subLocationName': ?5, 'location.metro.name': ?6}")
@@ -95,7 +94,6 @@ public interface ApartmentsRepository extends MongoRepository<Apartments, String
     @Query("{'type': ?0, 'location.locationName': ?1, 'price.value': {$gte: ?2, $lte: ?3}, 'rooms': ?4, 'location.subLocationName': ?5}")
     @Async
     CompletableFuture<List<Apartments>> findByTypeCityPriceRoomsRegion(String type, String city, int priceMin, int priceMax, int rooms, String subLocationName);
-
 
     //7
     @Query("{'type': ?0, 'location.locationName': ?1,  'price.value': {$gte: ?2, $lte: ?3}, " +
