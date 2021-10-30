@@ -98,4 +98,9 @@ public class UserController {
         userService.todayCompilation();
         return ResponseEntity.ok(userFromDb);
     }
+
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<?> delete(@PathVariable String id) {
+//
+//    }
 }
