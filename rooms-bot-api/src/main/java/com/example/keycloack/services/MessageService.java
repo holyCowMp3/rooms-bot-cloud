@@ -28,4 +28,8 @@ public class MessageService {
     public List<Messages> findAll() {
         return repository.findAll();
     }
+
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }
