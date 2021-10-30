@@ -89,36 +89,24 @@ public class UserService {
 //            }
 
             if (type.length == 2) {
-                if (user.getRooms() != null && user.getRegion() != null && user.getMetroNames() != null) {
-                    for (int room : user.getRooms())
-                        for (String region : user.getRegion())
-                            for (String metro : user.getMetroNames())
-                                apartments.addAll(apartmentsService.findByTypeCityCategoryPriceRoomsRegionMetro(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), room, region, metro));
-                } else if (user.getRooms() == null && user.getRegion() == null && user.getMetroNames() == null) {
-                    apartments.addAll(apartmentsService.findByTypeCityCategoryPrice(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax()));
-                } else if (user.getRooms() != null && user.getRegion() == null && user.getMetroNames() == null) {
-                    for (int room : user.getRooms())
-                        apartments.addAll(apartmentsService.findByTypeCityCategoryPriceRooms(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), room));
-                } else if (user.getRooms() != null && user.getRegion() != null && user.getMetroNames() == null) {
-                    for (int room : user.getRooms())
-                        for (String region : user.getRegion())
-                            apartments.addAll(apartmentsService.findByTypeCityCategoryPriceRoomsRegion(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), room, region));
-                } else if (user.getRooms() == null && user.getRegion() != null && user.getMetroNames() == null) {
-                    for (String region : user.getRegion())
-                        apartments.addAll(apartmentsService.findByTypeCityCategoryPriceRegion(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), region));
-                } else if (user.getRooms() == null && user.getRegion() != null && user.getMetroNames() != null) {
+                if (user.getRooms() != null)
+                    continue;
+
+                if (user.getRegion() != null && user.getMetroNames() != null) {
                     for (String region : user.getRegion())
                         for (String metro : user.getMetroNames())
                             apartments.addAll(apartmentsService.findByTypeCityCategoryPriceRegionMetro(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), region, metro));
-                } else if (user.getRooms() == null && user.getRegion() == null && user.getMetroNames() != null) {
+                } else if (user.getRegion() == null && user.getMetroNames() == null) {
+                    apartments.addAll(apartmentsService.findByTypeCityCategoryPrice(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax()));
+                } else if (user.getRegion() != null && user.getMetroNames() == null) {
+                    for (String region : user.getRegion())
+                        apartments.addAll(apartmentsService.findByTypeCityCategoryPriceRegion(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), region));
+                } else if (user.getRegion() == null && user.getMetroNames() != null) {
                     for (String metro : user.getMetroNames())
                         apartments.addAll(apartmentsService.findByTypeCityCategoryPriceMetro(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), metro));
-                } else if (user.getRooms() != null && user.getRegion() == null && user.getMetroNames() != null) {
-                    for (int room : user.getRooms())
-                        for (String metro : user.getMetroNames())
-                            apartments.addAll(apartmentsService.findByTypeCityCategoryPriceRoomsMetro(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), room, metro));
                 }
-            } else if (type.length == 1){
+
+            } else if (type.length == 1) {
                 if (user.getRooms() != null && user.getRegion() != null && user.getMetroNames() != null) {
                     for (int room : user.getRooms())
                         for (String region : user.getRegion())

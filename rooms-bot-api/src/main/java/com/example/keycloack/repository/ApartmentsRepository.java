@@ -25,42 +25,24 @@ public interface ApartmentsRepository extends MongoRepository<Apartments, String
     CompletableFuture<List<Apartments>> findByTypeCityCategoryPrice(String type, String city, String category, int priceMin, int priceMax);
 
     //3
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'rooms': ?5}")
-    @Async
-    CompletableFuture<List<Apartments>> findByTypeCityCategoryPriceRooms(String type, String city, String category, int priceMin, int priceMax, int rooms);
-
-    //4
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'rooms': ?5, " +
-            "'location.subLocationName': ?6, 'location.metro.name': ?7}")
-    @Async
-    CompletableFuture<List<Apartments>> findByTypeCityCategoryPriceRoomsRegionMetro(String type, String city, String category, int priceMin, int priceMax, int rooms, String subLocationName, String metro);
-
-    //5
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'rooms': ?5, 'location.metro.name': ?6}")
-    @Async
-    CompletableFuture<List<Apartments>> findByTypeCityCategoryPriceRoomsMetro(String type, String city, String category, int priceMin, int priceMax, int rooms, String metro);
-
-    //6
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'rooms': ?5, 'location.subLocationName': ?6}")
-    @Async
-    CompletableFuture<List<Apartments>> findByTypeCityCategoryPriceRoomsRegion(String type, String city, String category, int priceMin, int priceMax, int rooms, String subLocationName);
-
-    //7
     @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, " +
             "'location.subLocationName': ?5, 'location.metro.name': ?6}")
     @Async
     CompletableFuture<List<Apartments>> findByTypeCityCategoryPriceRegionMetro(String type, String city, String category, int priceMin, int priceMax, String subLocationName, String metro);
 
-    //8
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, " +
-            "'location.subLocationName': ?5}")
-    @Async
-    CompletableFuture<List<Apartments>> findByTypeCityCategoryPriceRegion(String type, String city, String category, int priceMin, int priceMax, String subLocationName);
-
-    //9
+    //4
     @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'location.metro.name': ?5}")
     @Async
     CompletableFuture<List<Apartments>> findByTypeCityCategoryPriceMetro(String type, String city, String category, int priceMin, int priceMax, String metro);
+
+    //5
+    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'location.subLocationName': ?5}")
+    @Async
+    CompletableFuture<List<Apartments>> findByTypeCityCategoryPriceRegion(String type, String city, String category, int priceMin, int priceMax, String subLocationName);
+
+
+
+
 
 
 

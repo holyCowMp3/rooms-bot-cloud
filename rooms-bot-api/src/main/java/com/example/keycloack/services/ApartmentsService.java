@@ -57,26 +57,6 @@ public class ApartmentsService {
     }
 
     @SneakyThrows
-    public List<Apartments> findByTypeCityCategoryPriceRooms(String type, String city, String category, int priceMin, int priceMax, int rooms) {
-        return repository.findByTypeCityCategoryPriceRooms(type, city, category, priceMin, priceMax, rooms).get();
-    }
-
-    @SneakyThrows
-    public List<Apartments> findByTypeCityCategoryPriceRoomsRegionMetro(String type, String city, String category, int priceMin, int priceMax, int rooms, String subLocationName, String metro) {
-        return repository.findByTypeCityCategoryPriceRoomsRegionMetro(type, city, category, priceMin, priceMax, rooms, subLocationName, metro).get();
-    }
-
-    @SneakyThrows
-    public List<Apartments> findByTypeCityCategoryPriceRoomsMetro(String type, String city, String category, int priceMin, int priceMax, int rooms, String metro) {
-        return repository.findByTypeCityCategoryPriceRoomsMetro(type, city, category, priceMin, priceMax, rooms, metro).get();
-    }
-
-    @SneakyThrows
-    public List<Apartments> findByTypeCityCategoryPriceRoomsRegion(String type, String city, String category, int priceMin, int priceMax, int rooms, String subLocationName) {
-        return repository.findByTypeCityCategoryPriceRoomsRegion(type, city, category, priceMin, priceMax, rooms, subLocationName).get();
-    }
-
-    @SneakyThrows
     public List<Apartments> findByTypeCityCategoryPriceRegionMetro(String type, String city, String category, int priceMin, int priceMax, String subLocationName, String metro) {
         return repository.findByTypeCityCategoryPriceRegionMetro(type, city, category, priceMin, priceMax, subLocationName, metro).get();
     }
