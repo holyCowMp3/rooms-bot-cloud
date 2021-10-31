@@ -8,22 +8,32 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
 @Controller
 @AllArgsConstructor
 @CrossOrigin
+@RequestMapping("/user")
 public class UserTableController {
 
     private LoadBalancerClient loadBalancerClient;
     private RestTemplate restTemplate;
 
-    @GetMapping("/user-table")
+    @GetMapping("/table")
     public String getUserTable(Model model) {
         model.addAttribute("userTelegram", restTemplate.getForObject(getBaseUrl() + "/api/user", User[].class));
 
 
         return "user-table";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable String id) {
+        restTemplate.delete(getBaseUrl() + "/api/user/delete/" + id);
+
+        return "redirect:/user/table";
     }
 
     private String getBaseUrl() {

@@ -3,6 +3,7 @@ package com.example.keycloack.controllers;
 import com.example.keycloack.models.User;
 import com.example.keycloack.services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -99,8 +100,15 @@ public class UserController {
         return ResponseEntity.ok(userFromDb);
     }
 
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<?> delete(@PathVariable String id) {
-//
-//    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        try {
+            userService.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>("id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
