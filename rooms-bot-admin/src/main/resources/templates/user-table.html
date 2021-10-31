@@ -88,11 +88,14 @@
                                             <div class="d-flex">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" th:value="${user.idTelegram}" th:id="${user.idTelegram}">
-                                                    <label class="form-check-label" th:for="${user.idTelegram}">
-                                                        Вибрати
-                                                    </label>
+<!--                                                    <label class="form-check-label" th:for="${user.idTelegram}">-->
+<!--                                                        Вибрати-->
+<!--                                                    </label>-->
                                                 </div>
-<!--                                                <input type="checkbox" class=""-->
+                                                <div class="d-flex">
+                                                    <a th:href="@{'/user/delete/' + ${user.id}}" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                </div>
+                                                <!--                                                <input type="checkbox" class=""-->
 <!--                                                       th:id="${user.idTelegram}" th:value="${user.idTelegram}">-->
                                                 <!--                                                <label class="form-check-label" th:for="${user.idTelegram}"></label>-->
                                             </div>
