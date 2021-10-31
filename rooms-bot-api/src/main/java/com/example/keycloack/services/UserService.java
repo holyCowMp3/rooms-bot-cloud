@@ -52,7 +52,7 @@ public class UserService {
 
 
         for (User user : users) {
-            List<Apartments> apartments = new ArrayList<>();
+            Set<Apartments> apartments = new HashSet<>();
 
             if (user.getType() == null || user.getCity() == null
                     || user.getType().equals("") || user.getCity().equals("") || (user.getPriceMin() == 0 && user.getPriceMax() == 0))
