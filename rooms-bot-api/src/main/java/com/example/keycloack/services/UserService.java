@@ -157,7 +157,7 @@ public class UserService {
         if ((!user.getType().equals("") || user.getType() != null) && (!user.getCity().equals("") || user.getCity() != null)
                 && user.getPriceMin() >= 0 && user.getPriceMax() != 0) {
             String[] type = user.getType().split(":");
-            List<Apartments> apartments = new ArrayList<>();
+            Set<Apartments> apartments = new HashSet<>();
 
             if (type.length == 2) {
                 if (type[1].equals("комната")) {
@@ -225,79 +225,5 @@ public class UserService {
             repository.save(user);
         }
     }
-
-//    public void todayCompilationUser(User user) {
-//
-//
-//
-//            List<Apartments> apartments = new ArrayList<>();
-//
-//            if (user.getType() == null || user.getCity() == null
-//                    || user.getType().equals("") || user.getCity().equals("") || (user.getPriceMin() == 0 && user.getPriceMax() == 0))
-//                return;
-//
-//            String[] type = user.getType().split(":");
-//
-//            if (type.length == 2) {
-//                if (user.getRooms() != null)
-//                    return;
-//
-//                if (user.getRegion() != null && user.getMetroNames() != null) {
-//                    for (String region : user.getRegion())
-//                        for (String metro : user.getMetroNames())
-//                            apartments.addAll(apartmentsService.findByTypeCityCategoryPriceRegionMetro(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), region, metro));
-//                } else if (user.getRegion() == null && user.getMetroNames() == null) {
-//                    apartments.addAll(apartmentsService.findByTypeCityCategoryPrice(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax()));
-//                } else if (user.getRegion() != null && user.getMetroNames() == null) {
-//                    for (String region : user.getRegion())
-//                        apartments.addAll(apartmentsService.findByTypeCityCategoryPriceRegion(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), region));
-//                } else if (user.getRegion() == null && user.getMetroNames() != null) {
-//                    for (String metro : user.getMetroNames())
-//                        apartments.addAll(apartmentsService.findByTypeCityCategoryPriceMetro(type[0], user.getCity(), type[1], user.getPriceMin(), user.getPriceMax(), metro));
-//                }
-//
-//            } else if (type.length == 1) {
-//                if (user.getRooms() != null && user.getRegion() != null && user.getMetroNames() != null) {
-//                    for (int room : user.getRooms())
-//                        for (String region : user.getRegion())
-//                            for (String metro : user.getMetroNames())
-//                                apartments.addAll(apartmentsService.findByTypeCityPriceRoomsRegionMetro(type[0], user.getCity(), user.getPriceMin(), user.getPriceMax(), room, region, metro));
-//                } else if (user.getRooms() == null && user.getRegion() == null && user.getMetroNames() == null) {
-//                    apartments.addAll(apartmentsService.findByTypeCityPrice(type[0], user.getCity(), user.getPriceMin(), user.getPriceMax()));
-//                } else if (user.getRooms() != null && user.getRegion() == null && user.getMetroNames() == null) {
-//                    for (int room : user.getRooms())
-//                        apartments.addAll(apartmentsService.findByTypeCityPriceRooms(type[0], user.getCity(), user.getPriceMin(), user.getPriceMax(), room));
-//                } else if (user.getRooms() != null && user.getRegion() != null && user.getMetroNames() == null) {
-//                    for (int room : user.getRooms())
-//                        for (String region : user.getRegion())
-//                            apartments.addAll(apartmentsService.findByTypeCityPriceRoomsRegion(type[0], user.getCity(), user.getPriceMin(), user.getPriceMax(), room, region));
-//                } else if (user.getRooms() == null && user.getRegion() != null && user.getMetroNames() == null) {
-//                    for (String region : user.getRegion())
-//                        apartments.addAll(apartmentsService.findByTypeCityPriceRegion(type[0], user.getCity(), user.getPriceMin(), user.getPriceMax(), region));
-//                } else if (user.getRooms() == null && user.getRegion() != null && user.getMetroNames() != null) {
-//                    for (String region : user.getRegion())
-//                        for (String metro : user.getMetroNames())
-//                            apartments.addAll(apartmentsService.findByTypeCityPriceRegionMetro(type[0], user.getCity(), user.getPriceMin(), user.getPriceMax(), region, metro));
-//                } else if (user.getRooms() == null && user.getRegion() == null && user.getMetroNames() != null) {
-//                    for (String metro : user.getMetroNames())
-//                        apartments.addAll(apartmentsService.findByTypeCityPriceMetro(type[0], user.getCity(), user.getPriceMin(), user.getPriceMax(), metro));
-//                } else if (user.getRooms() != null && user.getRegion() == null && user.getMetroNames() != null) {
-//                    for (int room : user.getRooms())
-//                        for (String metro : user.getMetroNames())
-//                            apartments.addAll(apartmentsService.findByTypeCityPriceRoomsMetro(type[0], user.getCity(), user.getPriceMin(), user.getPriceMax(), room, metro));
-//                }
-//            } else {
-//                System.out.println("empty array");
-//            }
-//
-//            user.getTodayCompilation().clear();
-//            user.setTodayCompilation(apartments.stream().map(Apartments::getInternalId).collect(Collectors.toList()));
-//
-//            System.out.println("----------------------------------------------------------------------------------------");
-//            System.out.println("saved: " + user);
-//            System.out.println("----------------------------------------------------------------------------------------");
-//
-//            repository.save(user);
-//        }
 
 }
