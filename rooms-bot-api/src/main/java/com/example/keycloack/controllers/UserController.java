@@ -55,7 +55,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
         User userSave = userService.save(user);
-        userService.todayCompilation();
+        userService.todayCompilationUser(userSave);
 
         return new ResponseEntity<>(userSave, HttpStatus.CREATED);
     }
@@ -89,7 +89,8 @@ public class UserController {
         userFromDb.setLanguage(user.getLanguage());
 
         userService.save(userFromDb);
-        userService.todayCompilation();
+        userService.todayCompilationUser(userFromDb);
+
         return ResponseEntity.ok(userFromDb);
     }
 
