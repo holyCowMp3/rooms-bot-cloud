@@ -139,6 +139,7 @@ public class UserService {
                 System.out.println("empty array");
             }
 
+            user.getTodayCompilation().clear();
             user.setTodayCompilation(apartments.stream().map(Apartments::getInternalId).collect(Collectors.toList()));
 
             System.out.println("----------------------------------------------------------------------------------------");
