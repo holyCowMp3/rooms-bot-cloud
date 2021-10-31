@@ -51,7 +51,7 @@ public class AutoUpdateApartmentsManager {
     @SneakyThrows
     @Scheduled(fixedDelay = 86400000, initialDelay = 4000)
     public void deleteOldApartments() {
-        List<Apartments> apartmentsList = apartmentsService.findAll().get();
+        List<Apartments> apartmentsList = apartmentsService.findAll();
 
         for (Apartments apartment : apartmentsList) {
             LocalDate localDateLastUpdate = LocalDate.parse(apartment.getLastUpdateDate());
@@ -66,10 +66,10 @@ public class AutoUpdateApartmentsManager {
     }
 
 
-    @Scheduled(fixedDelay = 86400000, initialDelay = 7000)
-    public void todayCompilation() {
-        userService.todayCompilation();
-    }
+//    @Scheduled(fixedDelay = 86400000, initialDelay = 7000)
+//    public void todayCompilation() {
+//        userService.todayCompilation();
+//    }
 
     @Scheduled(cron = "0 0 0 * * *", zone = "GMT+3")
     public void updateDaysOfSubscription() {

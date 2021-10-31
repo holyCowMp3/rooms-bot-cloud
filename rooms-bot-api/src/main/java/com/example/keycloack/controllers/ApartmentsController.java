@@ -162,11 +162,11 @@ public class ApartmentsController {
         return ResponseEntity.ok(apartments);
     }
 
-    @SneakyThrows
+
     @ResponseBody
     @GetMapping("/all")
     public ResponseEntity<List<Apartments>> all() {
-        return ResponseEntity.ok(apartmentsService.findAll().get());
+        return ResponseEntity.ok(apartmentsService.findAll());
     }
 
 }
