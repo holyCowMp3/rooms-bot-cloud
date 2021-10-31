@@ -51,12 +51,11 @@ public class UserService {
 
         for (User user : users) {
 
-            String[] type = user.getType().split(":");
-
             if (user.getType() == null || user.getCity() == null
                     || user.getType().equals("") || user.getCity().equals("") || (user.getPriceMin() == 0 && user.getPriceMax() == 0))
                 continue;
 
+            String[] type = user.getType().split(":");
 
 //            if (user.getPriceMax() != 0 && user.getPriceMin() != 0 && user.getRooms().size() != 0 && user.getRegion().size() != 0 && user.getMetroNames().size() != 0) {
 //                for (int room : user.getRooms())
