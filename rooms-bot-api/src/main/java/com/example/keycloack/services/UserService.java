@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,9 +48,10 @@ public class UserService {
 
     public void todayCompilation() {
         List<User> users = repository.findAll();
-        Set<Apartments> apartments = new HashSet<>();
+
 
         for (User user : users) {
+            List<Apartments> apartments = new ArrayList<>();
 
             if (user.getType() == null || user.getCity() == null
                     || user.getType().equals("") || user.getCity().equals("") || (user.getPriceMin() == 0 && user.getPriceMax() == 0))
