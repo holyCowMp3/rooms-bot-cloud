@@ -154,7 +154,7 @@ public class UserService {
     }
 
     public void todayCompilationUser(User user) {
-        if ((!user.getType().equals("") || user.getType() != null) && (!user.getCity().equals("") || user.getCity() != null)
+        if (user.getType() != null && user.getCity() != null
                 && user.getPriceMin() >= 0 && user.getPriceMax() != 0) {
             String[] type = user.getType().split(":");
             Set<Apartments> apartments = new HashSet<>();
