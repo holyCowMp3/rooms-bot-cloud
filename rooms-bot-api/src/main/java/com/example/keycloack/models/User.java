@@ -1,39 +1,53 @@
 package com.example.keycloack.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.*;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Document(collection = "Users")
-@Data
+@Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Date creationDate = new Date();
     private String type;
     private String name;
     private String lastName;
     private String nickname;
-    private List<Long> savedApartments;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<SavedApartments> savedApartments;
+
     private String city;
-    private List<String> region;
-    private List<String> metroNames;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Region> region;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<MetroNames> metroNames;
+
     private String phone;
     private String idTelegram;
     private long daysOfSubscription;
-    private int priceMin;
-    private int priceMax;
-    private List<Integer> rooms;
-    private List<Long> todayCompilation;
+    private long priceMin;
+    private long priceMax;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Rooms> rooms;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<TodayCompilation> todayCompilation;
+
+
     private String language;
     private int freeCounterSearch;
     private int userStatus;

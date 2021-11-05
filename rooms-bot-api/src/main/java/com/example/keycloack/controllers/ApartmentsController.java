@@ -1,15 +1,16 @@
 package com.example.keycloack.controllers;
 
 import com.example.keycloack.models.Apartments.Apartments;
+import com.example.keycloack.repository.ApartmentsRepository;
 import com.example.keycloack.services.ApartmentsService;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api/apartments")
@@ -19,7 +20,20 @@ import java.util.*;
 public class ApartmentsController {
 
     private final ApartmentsService apartmentsService;
+    private final ApartmentsRepository apartmentsRepository;
 
+    @ResponseBody
+    @GetMapping("/findApart")
+    public ResponseEntity<List<Apartments>> getApart(@RequestParam String type, @RequestParam String city, @RequestParam String category,
+                                                     @RequestParam long priceMin, @RequestParam long priceMax) throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok(apartmentsRepository.findByTypeCityCategoryPrice(type, city, category, priceMin, priceMax));
+    }
+
+    @ResponseBody
+    @GetMapping("/one")
+    public ResponseEntity<Apartments> apartmentsResponseEntity() {
+        return ResponseEntity.ok(apartmentsRepository.findAll().stream().findFirst().get());
+    }
 
 //    @ResponseBody
 //    @GetMapping("/randomByParams")

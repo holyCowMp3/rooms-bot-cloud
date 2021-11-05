@@ -30,14 +30,14 @@ services:
 #    restart: unless-stopped
 
   api-database:
-    image: kitbut/mongodb-rooms
+    image: mysql:latest
     container_name: "api-database"
     restart: always
-#    environment:
-#      - MONGO_INITDB_ROOT_USERNAME=root
-#      - MONGO_INITDB_ROOT_PASSWORD=zsxadc1234
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: rooms
     ports:
-      - "27017:27017"
+      - "3308:3306"
 
   rooms-bot-api:
     depends_on:

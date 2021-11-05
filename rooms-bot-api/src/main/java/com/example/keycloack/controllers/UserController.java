@@ -1,5 +1,6 @@
 package com.example.keycloack.controllers;
 
+import com.example.keycloack.models.Region;
 import com.example.keycloack.models.User;
 import com.example.keycloack.services.UserService;
 import lombok.AllArgsConstructor;
@@ -54,15 +55,16 @@ public class UserController {
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
-        User userSave = userService.save(user);
-        userService.todayCompilationUser(userSave);
 
-        return new ResponseEntity<>(userSave, HttpStatus.CREATED);
+        userService.save(user);
+//        userService.todayCompilationUser(user);
+
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
 
     @PutMapping("/updateById/{id}")
-    public ResponseEntity<User> updateById(@PathVariable String id, @RequestBody User user) {
+    public ResponseEntity<User> updateById(@PathVariable Long id, @RequestBody User user) {
         User userFromDb = userService.findById(id);
 
         if (userFromDb == null) {
@@ -95,7 +97,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             userService.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {

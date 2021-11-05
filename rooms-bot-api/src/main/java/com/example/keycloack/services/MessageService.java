@@ -21,7 +21,7 @@ public class MessageService {
         return repository.save(messages);
     }
 
-    public Messages findById(String id) {
+    public Messages findById(Long id) {
         return repository.findById(id).get();
     }
 

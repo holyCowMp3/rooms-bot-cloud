@@ -1,23 +1,24 @@
 package com.example.keycloack.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Messages {
+public class SavedApartments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "messages", cascade = CascadeType.ALL)
-    private List<UserTelegramId> userTelegramId;
+    private Long savedApartments;
 
-    private String messageText;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
 }

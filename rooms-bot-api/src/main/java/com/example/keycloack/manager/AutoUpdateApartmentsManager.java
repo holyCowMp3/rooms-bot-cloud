@@ -41,7 +41,7 @@ public class AutoUpdateApartmentsManager {
         this.userService = userService;
     }
 
-    @Scheduled(fixedDelay = 3000000, initialDelay = 1000)
+    @Scheduled(fixedDelay = 3000000)
     public void apiParsingXml() {
         urlParser("https://v3api.citybase.com.ua/xml?city=Kyiv&section=rent_living&company=380935177996&published_in_days=5");
         urlParser("https://v3api.citybase.com.ua/xml?city=Kyiv&section=sale_living&company=380935177996&published_in_days=5");
@@ -57,7 +57,7 @@ public class AutoUpdateApartmentsManager {
             LocalDate localDateLastUpdate = LocalDate.parse(apartment.getLastUpdateDate());
             int days = Days.daysBetween(localDateLastUpdate, LocalDate.now()).getDays();
 
-            if (days >= 5) {
+            if (days >= 15) {
                 System.out.println(days + " - days\n" + apartment.getLastUpdateDate() + " - deleted");
                 apartmentsService.delete(apartment);
             }
@@ -113,11 +113,7 @@ public class AutoUpdateApartmentsManager {
                 Document doc = db.parse(new ByteArrayInputStream(content.toString().getBytes(StandardCharsets.UTF_8)));
 
                 doc.getDocumentElement().normalize();
-                log.info("Root element :" + doc.getDocumentElement().getNodeName());
                 NodeList nList = doc.getElementsByTagName("offer");
-                log.info("----------------------------");
-
-                System.out.println(nList.getLength());
 
                 for (int temp = 0; temp < nList.getLength(); temp++) {
                     Apartments apartments = new Apartments();
@@ -154,11 +150,20 @@ public class AutoUpdateApartmentsManager {
 
                         //parse and set images
                         List<String> imagesList = new ArrayList<>();
-                        NodeList images = eElement.getElementsByTagName("image");
-                        for (int i = 0; i < images.getLength(); i++) {
-                            imagesList.add(images.item(i).getTextContent());
+                        NodeList imagesNode = eElement.getElementsByTagName("image");
+                        for (int i = 0; i < imagesNode.getLength(); i++) {
+                            imagesList.add(imagesNode.item(i).getTextContent());
                         }
-                        apartments.setImages(imagesList);
+
+                        List<Images> images = new ArrayList<>();
+                        for (String imageUrl : imagesList) {
+                            Images image = new Images();
+                            image.setApartments(apartments);
+                            image.setImage(imageUrl);
+                            images.add(image);
+                        }
+
+                        apartments.setImages(images);
 
                         //parse and set area
                         String value = "", unit = "";
@@ -188,6 +193,7 @@ public class AutoUpdateApartmentsManager {
                         }
 
                         Price price = new Price(valuePrice, currency);
+                        price.setApartments(apartments);
                         apartments.setPrice(price);
 
                         //parse and set location
@@ -236,7 +242,12 @@ public class AutoUpdateApartmentsManager {
                             distance = "";
                         }
 
-                        Location location = new Location(country, region, locationName, subLocationName, nonAdminSubLocality, address, house, new Metro(nameStation, distance));
+                        Location location = new Location(country, region, locationName, subLocationName, nonAdminSubLocality, address, house);
+                        Metro metro = new Metro(nameStation, distance);
+                        location.setMetro(metro);
+                        metro.setLocation(location);
+
+                        location.setApartments(apartments);
                         apartments.setLocation(location);
 
                         //parse and set sales-agent
@@ -246,6 +257,7 @@ public class AutoUpdateApartmentsManager {
                         } catch (Exception ignored) {
                         }
                         SalesAgent salesAgent = new SalesAgent(phone);
+                        salesAgent.setApartments(apartments);
                         apartments.setSalesAgent(salesAgent);
 
                         try {

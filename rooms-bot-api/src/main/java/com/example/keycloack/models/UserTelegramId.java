@@ -3,21 +3,20 @@ package com.example.keycloack.models;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Messages {
+public class UserTelegramId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "messages", cascade = CascadeType.ALL)
-    private List<UserTelegramId> userTelegramId;
+    private String telegramIds;
 
-    private String messageText;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Messages messages;
 }

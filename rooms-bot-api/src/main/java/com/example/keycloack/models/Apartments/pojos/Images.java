@@ -1,30 +1,25 @@
 package com.example.keycloack.models.Apartments.pojos;
 
+import com.example.keycloack.models.Apartments.Apartments;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Metro {
+public class Images {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String distance;
+    private String image;
 
-    @OneToOne(mappedBy = "metro")
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Location location;
-
-    public Metro(String name, String distance) {
-        this.name = name;
-        this.distance = distance;
-    }
+    private Apartments apartments;
 }

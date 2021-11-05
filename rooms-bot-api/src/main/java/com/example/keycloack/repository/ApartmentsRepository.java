@@ -1,98 +1,189 @@
 package com.example.keycloack.repository;
 
 import com.example.keycloack.models.Apartments.Apartments;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Repository
-public interface ApartmentsRepository extends MongoRepository<Apartments, String> {
+public interface ApartmentsRepository extends JpaRepository<Apartments, Long> {
 
     Apartments findByInternalId(Long id);
 
     //1
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2}")
-    List<Apartments> findByTypeCityCategory(String type, String city, String category);
+    @Query(value = "SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.category = :category")
+    List<Apartments> findByTypeCityCategory(@Param("type") String type,
+                                            @Param("city") String city,
+                                            @Param("category") String category);
 
     //2
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}}")
-    List<Apartments> findByTypeCityCategoryPrice(String type, String city, String category, int priceMin, int priceMax);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.category = :category and a.price.value BETWEEN :priceMin and :priceMax")
+    List<Apartments> findByTypeCityCategoryPrice(@Param("type") String type,
+                                                 @Param("city") String city,
+                                                 @Param("category") String category,
+                                                 @Param("priceMin") long priceMin,
+                                                 @Param("priceMax") long priceMax);
 
     //3
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, " +
-            "'location.subLocationName': ?5, 'location.metro.name': ?6}")
-    List<Apartments> findByTypeCityCategoryPriceRegionMetro(String type, String city, String category, int priceMin, int priceMax, String subLocationName, String metro);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.category = :category and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.location.subLocationName = :subLocationName and a.location.metro.name = :metro")
+    List<Apartments> findByTypeCityCategoryPriceRegionMetro(@Param("type") String type,
+                                                            @Param("city") String city,
+                                                            @Param("category") String category,
+                                                            @Param("priceMin") long priceMin,
+                                                            @Param("priceMax") long priceMax,
+                                                            @Param("subLocationName") String subLocationName,
+                                                            @Param("metro") String metro);
 
     //4
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'location.metro.name': ?5}")
-    List<Apartments> findByTypeCityCategoryPriceMetro(String type, String city, String category, int priceMin, int priceMax, String metro);
+    @Query("SELECT a FROM Apartments a WHERE  a.type = :type and a.location.locationName = :city and a.category = :category and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.location.metro.name = :metro")
+    List<Apartments> findByTypeCityCategoryPriceMetro(@Param("type") String type,
+                                                      @Param("city") String city,
+                                                      @Param("category") String category,
+                                                      @Param("priceMin") long priceMin,
+                                                      @Param("priceMax") long priceMax,
+                                                      @Param("metro") String metro);
 
     //5
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'location.subLocationName': ?5}")
-    List<Apartments> findByTypeCityCategoryPriceRegion(String type, String city, String category, int priceMin, int priceMax, String subLocationName);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.category = :category and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.location.subLocationName = :subLocationName")
+    List<Apartments> findByTypeCityCategoryPriceRegion(@Param("type") String type,
+                                                       @Param("city") String city,
+                                                       @Param("category") String category,
+                                                       @Param("priceMin") long priceMin,
+                                                       @Param("priceMax") long priceMax,
+                                                       @Param("subLocationName") String subLocationName);
 
 
-    //------------------------------------------------
+    //    //------------------------------------------------
 //2
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'rooms': ?5}")
-    List<Apartments> findByTypeCityCategoryPriceRooms(String type, String city, String category, int priceMin, int priceMax, int rooms);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.category = :category and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.rooms = :rooms")
+    List<Apartments> findByTypeCityCategoryPriceRooms(@Param("type") String type,
+                                                      @Param("city") String city,
+                                                      @Param("category") String category,
+                                                      @Param("priceMin") long priceMin,
+                                                      @Param("priceMax") long priceMax,
+                                                      @Param("rooms") int rooms);
 
     //3
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'rooms': ?5, " +
-            "'location.subLocationName': ?6, 'location.metro.name': ?7}")
-    List<Apartments> findByTypeCityCategoryPriceRoomsRegionMetro(String type, String city, String category, int priceMin, int priceMax, int rooms, String subLocationName, String metro);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.category = :category and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.rooms = :rooms and a.location.subLocationName = :subLocationName and a.location.metro.name = :metro")
+    List<Apartments> findByTypeCityCategoryPriceRoomsRegionMetro(@Param("type") String type,
+                                                                 @Param("city") String city,
+                                                                 @Param("category") String category,
+                                                                 @Param("priceMin") long priceMin,
+                                                                 @Param("priceMax") long priceMax,
+                                                                 @Param("rooms") int rooms,
+                                                                 @Param("subLocationName") String subLocationName,
+                                                                 @Param("metro") String metro);
 
     //4
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'rooms': ?5, 'location.metro.name': ?6}")
-    List<Apartments> findByTypeCityCategoryPriceRoomsMetro(String type, String city, String category, int priceMin, int priceMax, int rooms, String metro);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.category = :category and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.rooms = :rooms and a.location.metro.name = :metro")
+    List<Apartments> findByTypeCityCategoryPriceRoomsMetro(@Param("type") String type,
+                                                           @Param("city") String city,
+                                                           @Param("category") String category,
+                                                           @Param("priceMin") long priceMin,
+                                                           @Param("priceMax") long priceMax,
+                                                           @Param("rooms") int rooms,
+                                                           @Param("metro") String metro);
 
     //5
-    @Query("{'type': ?0, 'location.locationName': ?1, 'category': ?2, 'price.value': {$gte: ?3, $lte: ?4}, 'rooms': ?5 'location.subLocationName': ?6}")
-    List<Apartments> findByTypeCityCategoryPriceRoomsRegion(String type, String city, String category, int priceMin, int priceMax, int rooms, String subLocationName);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.category = :category and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.rooms = :rooms and a.location.subLocationName = :subLocationName")
+    List<Apartments> findByTypeCityCategoryPriceRoomsRegion(@Param("type") String type,
+                                                            @Param("city") String city,
+                                                            @Param("category") String category,
+                                                            @Param("priceMin") long priceMin,
+                                                            @Param("priceMax") long priceMax,
+                                                            @Param("rooms") int rooms,
+                                                            @Param("subLocationName") String subLocationName);
     //------------------------------------------------
 
 
     //1
-    @Query("{'type': ?0, 'location.locationName': ?1}")
-    List<Apartments> findByTypeCity(String type, String city);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city")
+    List<Apartments> findByTypeCity(@Param("type") String type,
+                                    @Param("city") String city);
 
     //2
-    @Query("{'type': ?0, 'location.locationName': ?1, 'price.value': {$gte: ?2, $lte: ?3}}")
-    List<Apartments> findByTypeCityPrice(String type, String city, int priceMin, int priceMax);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.price.value BETWEEN :priceMin and :priceMax")
+    List<Apartments> findByTypeCityPrice(@Param("type") String type,
+                                         @Param("city") String city,
+                                         @Param("priceMin") long priceMin,
+                                         @Param("priceMax") long priceMax);
 
     //3
-    @Query("{'type': ?0, 'location.locationName': ?1, 'price.value': {$gte: ?2, $lte: ?3}, 'rooms': ?4}")
-    List<Apartments> findByTypeCityPriceRooms(String type, String city, int priceMin, int priceMax, int rooms);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.rooms = :rooms")
+    List<Apartments> findByTypeCityPriceRooms(@Param("type") String type,
+                                              @Param("city") String city,
+                                              @Param("priceMin") long priceMin,
+                                              @Param("priceMax") long priceMax,
+                                              @Param("rooms") int rooms);
 
     //4
-    @Query("{'type': ?0, 'location.locationName': ?1, 'price.value': {$gte: ?2, $lte: ?3}, 'rooms': ?4, " +
-            "'location.subLocationName': ?5, 'location.metro.name': ?6}")
-    List<Apartments> findByTypeCityPriceRoomsRegionMetro(String type, String city, int priceMin, int priceMax, int rooms, String subLocationName, String metro);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.rooms = :rooms and a.location.subLocationName = :subLocationName and a.location.metro.name = :metro")
+    List<Apartments> findByTypeCityPriceRoomsRegionMetro(@Param("type") String type,
+                                                         @Param("city") String city,
+                                                         @Param("priceMin") long priceMin,
+                                                         @Param("priceMax") long priceMax,
+                                                         @Param("rooms") int rooms,
+                                                         @Param("subLocationName") String subLocationName,
+                                                         @Param("metro") String metro);
 
     //5
-    @Query("{'type': ?0, 'location.locationName': ?1, 'price.value': {$gte: ?2, $lte: ?3}, 'rooms': ?4, 'location.metro.name': ?5}")
-    List<Apartments> findByTypeCityPriceRoomsMetro(String type, String city, int priceMin, int priceMax, int rooms, String metro);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.rooms = :rooms and a.location.metro.name = :metro")
+    List<Apartments> findByTypeCityPriceRoomsMetro(@Param("type") String type,
+                                                   @Param("city") String city,
+                                                   @Param("priceMin") long priceMin,
+                                                   @Param("priceMax") long priceMax,
+                                                   @Param("rooms") int rooms,
+                                                   @Param("metro") String metro);
 
     //6
-    @Query("{'type': ?0, 'location.locationName': ?1, 'price.value': {$gte: ?2, $lte: ?3}, 'rooms': ?4, 'location.subLocationName': ?5}")
-    List<Apartments> findByTypeCityPriceRoomsRegion(String type, String city, int priceMin, int priceMax, int rooms, String subLocationName);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.rooms = :rooms and a.location.subLocationName = :subLocationName")
+    List<Apartments> findByTypeCityPriceRoomsRegion(@Param("type") String type,
+                                                    @Param("city") String city,
+                                                    @Param("priceMin") long priceMin,
+                                                    @Param("priceMax") long priceMax,
+                                                    @Param("rooms") int rooms,
+                                                    @Param("subLocationName") String subLocationName);
 
     //7
-    @Query("{'type': ?0, 'location.locationName': ?1,  'price.value': {$gte: ?2, $lte: ?3}, " +
-            "'location.subLocationName': ?4, 'location.metro.name': ?5}")
-    List<Apartments> findByTypeCityPriceRegionMetro(String type, String city, int priceMin, int priceMax, String subLocationName, String metro);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.location.subLocationName = :subLocationName and a.location.metro.name = :metro")
+    List<Apartments> findByTypeCityPriceRegionMetro(@Param("type") String type,
+                                                    @Param("city") String city,
+                                                    @Param("priceMin") long priceMin,
+                                                    @Param("priceMax") long priceMax,
+                                                    @Param("subLocationName") String subLocationName,
+                                                    @Param("metro") String metro);
 
     //8
-    @Query("{'type': ?0, 'location.locationName': ?1, 'price.value': {$gte: ?2, $lte: ?3}, " +
-            "'location.subLocationName': ?4}")
-    List<Apartments> findByTypeCityPriceRegion(String type, String city, int priceMin, int priceMax, String subLocationName);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.location.subLocationName = :subLocationName")
+    List<Apartments> findByTypeCityPriceRegion(@Param("type") String type,
+                                               @Param("city") String city,
+                                               @Param("priceMin") long priceMin,
+                                               @Param("priceMax") long priceMax,
+                                               @Param("subLocationName") String subLocationName);
 
     //9
-    @Query("{'type': ?0, 'location.locationName': ?1,  'price.value': {$gte: ?2, $lte: ?3}, 'location.metro.name': ?4}")
-    List<Apartments> findByTypeCityPriceMetro(String type, String city, int priceMin, int priceMax, String metro);
+    @Query("SELECT a FROM Apartments a WHERE a.type = :type and a.location.locationName = :city and a.price.value BETWEEN :priceMin and :priceMax" +
+            " and a.location.metro.name = :metro")
+    List<Apartments> findByTypeCityPriceMetro(@Param("type") String type,
+                                              @Param("city") String city,
+                                              @Param("priceMin") long priceMin,
+                                              @Param("priceMax") long priceMax,
+                                              @Param("metro") String metro);
 
 }

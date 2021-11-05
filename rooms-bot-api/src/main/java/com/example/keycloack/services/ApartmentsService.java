@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -26,7 +27,6 @@ public class ApartmentsService {
         return repository.findAll();
     }
 
-
     public void delete(Apartments apartments) {
         repository.delete(apartments);
     }
@@ -36,9 +36,8 @@ public class ApartmentsService {
     }
 
 
-    public Apartments findById(String id) {
-        Optional<Apartments> apartments = repository.findById(id);
-        return apartments.orElse(null);
+    public Apartments findById(Long id) {
+       return repository.findById(id).get();
     }
 
     public Apartments findByInternalId(Long id) {
