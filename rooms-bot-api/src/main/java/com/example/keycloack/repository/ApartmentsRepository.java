@@ -3,11 +3,9 @@ package com.example.keycloack.repository;
 import com.example.keycloack.models.Apartments.Apartments;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Repository
 public interface ApartmentsRepository extends MongoRepository<Apartments, String> {
